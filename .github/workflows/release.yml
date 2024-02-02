@@ -1,0 +1,38 @@
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build_job:
+    runs-on: archarm_latest
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+    steps:
+      - name: Checkout PKGBUILD
+        uses: actions/checkout@v4
+      - name: Build kernel and kernel-headers packages
+        uses: uraimo/run-on-arch-action@v2
+        id: build
+        with:
+          arch: aarch64
+          distro: archarm_latest
+          run: |
+            makepkg -s
+      - name: Check if Git tag exists
+        run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
+      - name: Get release version
+        run: echo "::set-output name=version::$(echo $env.HEAD_TAG)"
+        if: env.HEAD_TAG != ''
+        id: version
+      - name: Create new release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
