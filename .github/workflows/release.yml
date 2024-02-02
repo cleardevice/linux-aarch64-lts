@@ -1,6 +1,8 @@
 on:
   workflow_dispatch:
   push:
+    branches:
+      - kernel-6.1-lts
     tags:
       - 'v*'
 
