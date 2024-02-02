@@ -8,7 +8,7 @@ on:
 
 jobs:
   build_job:
-    runs-on: archarm_latest
+    runs-on: aarch64
     name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
     steps:
       - name: Checkout PKGBUILD
