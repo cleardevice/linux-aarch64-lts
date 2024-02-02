@@ -8,7 +8,7 @@ on:
 
 jobs:
   build_job:
-    runs-on: aarch64
+    runs-on: ubuntu-22.04
     name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
     steps:
       - name: Checkout PKGBUILD
