@@ -8,19 +8,15 @@ on:
 
 jobs:
   build_job:
-    runs-on: ubuntu-22.04
-    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux
+      options: --privileged
     steps:
       - name: Checkout PKGBUILD
         uses: actions/checkout@v4
-      - name: Build kernel and kernel-headers packages
-        uses: uraimo/run-on-arch-action@v2
-        id: build
-        with:
-          arch: aarch64
-          distro: archarm_latest
-          run: |
-            makepkg -s
+      - name: Build Arch Linux package
+        uses: FFY00/build-arch-package@v1
       - name: Check if Git tag exists
         run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
       - name: Get release version
