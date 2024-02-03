@@ -9,12 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    container:
-      image: archlinux
-      options: --privileged
     steps:
-      - name: Checkout PKGBUILD
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: uraimo/run-on-arch-action@v2
         name: Run commands
         id: runcmd
@@ -22,23 +18,19 @@ jobs:
           arch: aarch64
           distro: archarm_latest
           githubToken: ${{ github.token }}
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          install: |
+            useradd -m -g users -G wheel user
+            su -l user
+            sudo pacman -Syu
+            sudo pacman -S git base-devel
+            git clone https://aur.archlinux.org/paru-bin
+            cd paru-bin
+            makepkg -si
           run: |
             uname -a
             id
-      - name: Check if Git tag exists
-        run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
-      - name: Get release version
-        run: echo "::set-output name=version::$(echo $env.HEAD_TAG)"
-        if: env.HEAD_TAG != ''
-        id: version
-      - name: Create new release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
-          body_path: CHANGELOG.md
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+            ls -lah /artifacts/
