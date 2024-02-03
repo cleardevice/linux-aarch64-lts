@@ -11,10 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build Arch Linux Package
+      - name: Build Arch Linux kernel package
         uses: Menci/build-archlinux-package@beta-v1
         with:
           platform: linux/arm64
-          # The directory containing PKGBUILD and other files required.
           pkgbuild-directory: ${PWD}
           target-directory: ${PWD}
