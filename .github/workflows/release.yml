@@ -15,8 +15,16 @@ jobs:
     steps:
       - name: Checkout PKGBUILD
         uses: actions/checkout@v4
-      - name: Build Arch Linux package
-        uses: FFY00/build-arch-package@v1
+      - uses: uraimo/run-on-arch-action@v2
+        name: Run commands
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: archarm_latest
+          githubToken: ${{ github.token }}
+          run: |
+            uname -a
+            id
       - name: Check if Git tag exists
         run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
       - name: Get release version
