@@ -11,12 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: test
-        run: pwd
-        shell: bash
       - name: Build Arch Linux kernel package
         uses: Menci/build-archlinux-package@beta-v1
         with:
+          docker-image: menci/archlinuxarm:base-devel
           platform: linux/arm64
           pkgbuild-directory: /home/runner/work/linux-aarch64-lts/linux-aarch64-lts
           target-directory: /home/runner/work/linux-aarch64-lts/linux-aarch64-lts
