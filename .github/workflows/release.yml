@@ -19,5 +19,5 @@ jobs:
         with:
           docker-image: menci/archlinuxarm:latest
           platform: linux/arm64
-          pkgbuild-directory: ${PWD}
-          target-directory: ${PWD}
+          pkgbuild-directory: /home/runner/work/linux-aarch64-lts/linux-aarch64-lts
+          target-directory: /home/runner/work/linux-aarch64-lts/linux-aarch64-lts
