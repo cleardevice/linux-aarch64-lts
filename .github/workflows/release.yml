@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: test
+        run: ls -lah
+        shell: bash
       - name: Build Arch Linux kernel package
         uses: Menci/build-archlinux-package@beta-v1
         with:
