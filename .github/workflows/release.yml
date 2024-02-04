@@ -8,13 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, ARM64]
     steps:
       - uses: actions/checkout@v4
-      - name: Build Arch Linux kernel package
-        uses: Menci/build-archlinux-package@beta-v1
-        with:
-          docker-image: menci/archlinuxarm:base-devel
-          platform: linux/arm64
-          pkgbuild-directory: /home/runner/work/linux-aarch64-lts/linux-aarch64-lts
-          target-directory: /home/runner/work/linux-aarch64-lts/linux-aarch64-lts
+      - run: ls -lah
