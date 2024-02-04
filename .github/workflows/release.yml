@@ -17,6 +17,7 @@ jobs:
       - name: Build Arch Linux kernel package
         uses: Menci/build-archlinux-package@beta-v1
         with:
+          docker-image: menci/archlinuxarm:latest
           platform: linux/arm64
           pkgbuild-directory: ${PWD}
           target-directory: ${PWD}
